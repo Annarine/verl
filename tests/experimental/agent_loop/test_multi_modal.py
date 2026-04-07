@@ -230,7 +230,7 @@ def test_multimodal_tool_agent(init_config):
             assert "pixel_values_videos" in multi_modal_inputs[i], f"Sample {i} should have pixel_values_videos"
             assert "video_grid_thw" in multi_modal_inputs[i], f"Sample {i} should have video_grid_thw"
 
-        if i // n <= 1:
+        if i // n == 0:
             # TODO: prompt with video not generate tool call as expected
             # First prompt: "How are you?" - should have 2 turns [user, assistant]
             assert num_turns[i] == 2, f"Expected 2 turns but got {num_turns[i]} for sample {i}"
@@ -292,6 +292,7 @@ def test_multimodal_tool_agent(init_config):
 
 def test_multimodal_single_turn_agent(init_config):
     """Test single turn agent loop with multimodal inputs using Qwen VL model."""
+    ray.shutdown()
     ray.init(
         runtime_env={
             "env_vars": {
